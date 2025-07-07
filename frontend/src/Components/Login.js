@@ -10,7 +10,7 @@ export default function Login() {
     const [backendError, setBackendError] = useState('');
     const navigate = useNavigate();
 
-    const { setLoggedIn, settoken } = useContext(Context);
+    const { setLoggedIn, settoken, setIdentity} = useContext(Context);
 
     // Client-side validation
     const validateForm = () => {
@@ -46,6 +46,7 @@ export default function Login() {
                 });
                 const data = await response.json();
                 settoken(data.token);
+                setIdentity(data.identity);
                 setLoggedIn(true);
                 navigate('/'); 
             } catch (err) {

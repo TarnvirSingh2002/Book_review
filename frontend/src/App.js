@@ -22,7 +22,6 @@ function App() {
           <Route path="/add-book" element={<AddBook />} />
           <Route path="/books/:id" element={<BookDetails />} />
           <Route path="/user_profile" element={<UserProfilePage />} />
-          {/* <Route path="*" element={<NotFound />} />  */}
         </Routes>
       </div>
     </Router>

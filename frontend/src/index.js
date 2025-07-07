@@ -11,6 +11,7 @@ const AppWrapper = () => {
   const [token, settoken] = useState("");
   const [book, setBook]=useState("");
   const [user,setUser] = useState();
+  const [Identity,setIdentity] = useState("");
 
   return (
     <Context.Provider
@@ -22,7 +23,9 @@ const AppWrapper = () => {
         book,
         setBook,
         user,
-        setUser
+        setUser,
+        setIdentity,
+        Identity
       }}
     >
       <App />

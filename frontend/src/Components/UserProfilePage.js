@@ -5,7 +5,7 @@ import ErrorMessage from "../ExtraComponent/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
-    const { token, isLoggedIn, error, setLoggedIn } = useContext(Context);
+    const { token, isLoggedIn, error, setLoggedIn, Identity } = useContext(Context);
     const [isEditing, setIsEditing] = useState(false);
     const [user, setuser] = useState({});
     const [currentUsername, setCurrentUsername] = useState(user.name);
@@ -37,14 +37,11 @@ const UserProfilePage = () => {
         fetchdata();
     }, [token]);
 
-    //handle this
-
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
-        setFormStatus(null); // Reset status
+        setFormStatus(null); 
         setLoading(true);
 
-        // Basic validation
         if (!currentUsername.trim() || !currentEmail.trim()) {
             setFormStatus({ type: 'error', message: 'Username and Email cannot be empty.' });
             setLoading(false);
@@ -56,20 +53,35 @@ const UserProfilePage = () => {
             return;
         }
 
-        const result = await setuser({ name: currentUsername, email: currentEmail });
+        try {
 
-        if (result.success) {
-            setFormStatus({ type: 'success', message: 'Profile updated successfully!' });
-            setIsEditing(false); // Exit edit mode on success
-        } else {
-            setFormStatus({ type: 'error', message: result.error || 'Failed to update profile.' });
+            const res = await fetch(`http://localhost:5000/users/${Identity}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": token
+                },
+                body: JSON.stringify({
+                    name: currentUsername,
+                    email: currentEmail
+                })
+            });
+
+        const result = await res.json();
+        console.log("result:",result);
+        setuser(result);
+
+        } catch (error) {
+            setFormStatus({ type: 'error', message: 'An unexpected error occurred.' });
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="container mx-auto p-6">
             <button
-                onClick={() => navigate('home')} // Mock navigation back to a conceptual home
+                onClick={() => navigate('/')} // Mock navigation back to a conceptual home
                 className="mb-6 flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-300 font-medium"
             >
                 ⬅️ Back to Home

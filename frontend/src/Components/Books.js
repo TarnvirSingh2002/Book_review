@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import LoadingSpinner from '../ExtraComponent/LoadingSpinner'
 import ErrorMessage from '../ExtraComponent/ErrorMessage'
 import { Context } from '..'
